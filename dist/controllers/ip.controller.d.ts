@@ -1,0 +1,3 @@
+export declare const handleAddIpRules: (req: import("express").Request, res: import("express").Response) => Promise<import("express").Response<any, Record<string, any>> | undefined>;
+export declare const handleDeleteIpRules: (req: import("express").Request, res: import("express").Response) => Promise<import("express").Response<any, Record<string, any>> | undefined>;
+//# sourceMappingURL=ip.controller.d.ts.map

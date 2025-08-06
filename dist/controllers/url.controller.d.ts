@@ -1,0 +1,3 @@
+export declare const handleAddUrlRules: (req: import("express").Request, res: import("express").Response) => Promise<import("express").Response<any, Record<string, any>> | undefined>;
+export declare const handleDeleteUrlRules: (req: import("express").Request, res: import("express").Response) => Promise<import("express").Response<any, Record<string, any>> | undefined>;
+//# sourceMappingURL=url.controller.d.ts.map
