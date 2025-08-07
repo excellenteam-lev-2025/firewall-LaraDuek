@@ -1,0 +1,3 @@
+export declare const handleAddPortRules: (req: import("express").Request, res: import("express").Response) => Promise<import("express").Response<any, Record<string, any>> | undefined>;
+export declare const handleDeletePortRules: (req: import("express").Request, res: import("express").Response) => Promise<import("express").Response<any, Record<string, any>> | undefined>;
+//# sourceMappingURL=port.controller.d.ts.map
