@@ -1,5 +1,4 @@
+const net = require('net');
 export function isValidIp(ip: string): boolean {
-  const ipv4Regex =
-    /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}$/;
-  return ipv4Regex.test(ip);
+  return net.isIP(ip);
 }
