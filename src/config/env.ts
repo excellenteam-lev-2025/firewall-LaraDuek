@@ -1,17 +1,16 @@
 import 'dotenv/config';
 import { z } from 'zod';
 
+const ENV = process.env.ENV ?? 'dev';
+const envFile = ENV === 'production' ? '.env.production' : '.env.development';
+
 const EnvSchema = z.object({
   ENV: z.enum(['dev', 'production'], { error: 'ENV must be dev or production' }),
   PORT: z.coerce.number().int().min(1).max(65535),
-  DATABASE_URI_DEV: z.string().url('DATABASE_URI_DEV must be a valid URL'),
-  DATABASE_URI_PROD: z.string().url('DATABASE_URI_PROD must be a valid URL'),
+  DATABASE_URI: z.string().url('DATABASE_URI must be a valid URL'),
 });
 
 const env = EnvSchema.parse(process.env);
-
-const DATABASE_URI = env.ENV === 'production' ? env.DATABASE_URI_PROD : env.DATABASE_URI_DEV;
-
 
 export const APP_NAME = 'firewalls';
 export const STRINGS = {
@@ -24,6 +23,6 @@ export const STRINGS = {
 export const config = {
   env: env.ENV,               // 'dev' | 'production'
   port: env.PORT,             // number
-  databaseUri: DATABASE_URI,  // string
+  databaseUri: env.DATABASE_URI,  // string
   dbConnectionInterval: Number(process.env.DB_CONNECTION_INTERVAL) || 2000, // ms
 } as const;
