@@ -3,26 +3,40 @@ import { config } from './env';
 import path from 'node:path';
 import fs from 'node:fs';
 
-if (config.env === 'production') {
-  const logsDir = path.join(process.cwd(), 'logs');
-  if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
-  }
-}
-
 const logFormat = format.combine(
   format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   format.printf(({ timestamp, level, message }) => `${timestamp} [${level}]: ${message}`)
 );
 
-const transportsFormat = config.env === 'production'
-  ? [new transports.File({ filename: path.join('logs', 'app.log') })]
-  : [new transports.Console({ format: format.combine(format.colorize(), logFormat) })];
+function buildTransports() {
+    //prod
+    if (config.env !== 'production') {
+        return [
+        new transports.Console({
+            format: format.combine(format.colorize(), logFormat),
+            handleExceptions: true
+        })
+        ];
+    }
+    //dev
+    try {
+        const logsDir = path.resolve(process.cwd(), 'logs');
+        if (!fs.existsSync(logsDir)) {
+        fs.mkdirSync(logsDir, { recursive: true });
+        }
+        return [new transports.File({ filename: path.join(logsDir, 'app.log') })];
+
+    } catch (err) {
+        console.warn('[logger] couldnt prepare log file. Fallback to console.', err);
+        return [new transports.Console({ format: format.combine(format.colorize(), logFormat) })];
+    }
+}
 
 export const logger = createLogger({
   level: config.env === 'production' ? 'info' : 'debug',
   format: logFormat,
-  transports: transportsFormat
+  transports: buildTransports(),
+  exitOnError: false
 });
 
 export default logger;

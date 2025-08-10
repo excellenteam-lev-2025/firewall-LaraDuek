@@ -3,7 +3,24 @@ import { config } from './config/env';
 
 export const pool = new Pool({ connectionString: config.databaseUri! });
 
+async function connectWithStopAndWait(): Promise<void> {
+  for (;;) {
+    try {
+      await pool.query('SELECT 1'); 
+      console.log('DB connection ACK');
+      return; 
+    } catch (err) {
+      console.error(`DB not ready. Retrying in ${config.dbConnectionInterval}ms...`);
+      await new Promise((resolve) =>
+        setTimeout(resolve, config.dbConnectionInterval)
+      );
+    }
+  }
+}
+
 export const dbReady = (async () => {
+  await connectWithStopAndWait();
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS ip_rules (
       id SERIAL PRIMARY KEY,

@@ -25,4 +25,5 @@ export const config = {
   env: env.ENV,               // 'dev' | 'production'
   port: env.PORT,             // number
   databaseUri: DATABASE_URI,  // string
+  dbConnectionInterval: Number(process.env.DB_CONNECTION_INTERVAL) || 2000, // ms
 } as const;
