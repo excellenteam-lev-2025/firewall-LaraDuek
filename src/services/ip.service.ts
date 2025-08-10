@@ -1,4 +1,4 @@
-import { RuleMode } from '../models/IpRule';
+import { RuleMode } from '../types/models/IpRule';
 import { addRulesToTable, deleteRulesFromTable } from '../utils/ruleOperations';
 import { isValidIp } from '../validators/ip.validator';
 import { BadRequestError } from '../utils/errors';

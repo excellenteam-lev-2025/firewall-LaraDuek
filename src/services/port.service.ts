@@ -1,4 +1,4 @@
-import { RuleMode } from '../models/PortRule';
+import { RuleMode } from '../types/models/PortRule';
 import { addRulesToTable, deleteRulesFromTable } from '../utils/ruleOperations';
 import { isValidPort } from '../validators/port.validator';
 import { BadRequestError } from '../utils/errors';
