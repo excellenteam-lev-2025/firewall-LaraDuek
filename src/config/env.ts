@@ -1,36 +1,28 @@
-import 'dotenv/config'; 
-import {z} from 'zod';
+import 'dotenv/config';
+import { z } from 'zod';
 
-const envSchema = z.object({
-    ENV: z.enum(['dev', 'production'], { error: 'ENV is required' }),
-    PORT: z.coerce.number().int().min(1).max(65535),
-    DATABASE_URI: z.string().url().optional(),
-    DATABASE_URI_DEV: z.string().url().optional(),
-    DATABASE_URI_PRODUCTION: z.string().url().optional(),
+const EnvSchema = z.object({
+  ENV: z.enum(['dev', 'production'], { error: 'ENV must be dev or production' }),
+  PORT: z.coerce.number().int().min(1).max(65535),
+  DATABASE_URI_DEV: z.string().url('DATABASE_URI_DEV must be a valid URL'),
+  DATABASE_URI_PROD: z.string().url('DATABASE_URI_PROD must be a valid URL'),
 });
 
-const parsed = envSchema.safeParse(process.env);
-if (!parsed.success) {
-  console.error('Invalid environment variables:', parsed.error.flatten().fieldErrors);
-  process.exit(1); 
-}
+const env = EnvSchema.parse(process.env);
 
-const env = parsed.data;
-function pickDatabaseUri() {
-  const byEnv = env.ENV === 'dev' ? env.DATABASE_URI_DEV : env.DATABASE_URI_PRODUCTION;
-  const chosen = byEnv ?? env.DATABASE_URI; 
+const DATABASE_URI = env.ENV === 'production' ? env.DATABASE_URI_PROD : env.DATABASE_URI_DEV;
 
-  const ok = z.string().url().safeParse(chosen);
-  if (!ok.success) {
-    throw new Error('DATABASE URI missing/invalid for current ENV');
-  }
-  return ok.data;
-}
+
+export const APP_NAME = 'firewalls';
+export const STRINGS = {
+  serverStarting: `${APP_NAME} starting...`,
+  serverReady: `${APP_NAME} ready`,
+  serverError: `${APP_NAME} failed to start`,
+} as const;
+
 
 export const config = {
-    env: env.ENV,
-    isDev: env.ENV === 'dev',
-    isProd: env.ENV === 'production',
-    server: { port: env.PORT },
-    db: { uri: pickDatabaseUri() },
+  env: env.ENV,               // 'dev' | 'production'
+  port: env.PORT,             // number
+  databaseUri: DATABASE_URI,  // string
 } as const;

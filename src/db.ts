@@ -1,13 +1,35 @@
 import { Pool } from 'pg';
-import { config } from './config/config';
+import { config } from './config/env';
 
-const pool = new Pool({
-  user: config.db.user,
-  password: config.db.password,
-  host: config.db.host,
-  port: config.db.port,
-  database: config.db.name,
-});
+export const pool = new Pool({ connectionString: config.databaseUri! });
 
-export default pool;
+export const dbReady = (async () => {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS ip_rules (
+      id SERIAL PRIMARY KEY,
+      value TEXT NOT NULL,
+      mode VARCHAR(10) NOT NULL CHECK (mode IN ('blacklist', 'whitelist')),
+      active BOOLEAN DEFAULT TRUE
+    );
+  `);
 
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS url_rules (
+      id SERIAL PRIMARY KEY,
+      value TEXT NOT NULL,
+      mode VARCHAR(10) NOT NULL CHECK (mode IN ('blacklist', 'whitelist')),
+      active BOOLEAN DEFAULT TRUE
+    );
+  `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS port_rules (
+      id SERIAL PRIMARY KEY,
+      value INTEGER NOT NULL CHECK (value >= 0 AND value <= 65535),
+      mode VARCHAR(10) NOT NULL CHECK (mode IN ('blacklist', 'whitelist')),
+      active BOOLEAN DEFAULT TRUE
+    );
+  `);
+
+  console.log('Tables ip_rules, url_rules, and port_rules created (or already existed).');
+})();

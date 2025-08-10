@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn src/app.ts",
     "build": "tsc",
-    "start": "npm run migrate && npm run build && node dist/app.js",
+    "start": "npm run build && node dist/app.js",
     "migrate": "ts-node src/migrate.ts"
   },
   "keywords": [],
@@ -16,6 +16,7 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "pg": "^8.16.3",
+    "winston": "^3.17.0",
     "zod": "^4.0.17"
   },
   "devDependencies": {
