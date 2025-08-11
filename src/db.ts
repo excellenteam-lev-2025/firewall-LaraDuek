@@ -1,17 +1,17 @@
 import { Pool } from 'pg';
 import { config } from './config/env';
+import { drizzle } from 'drizzle-orm/node-postgres';
 
 export const pool = new Pool({ connectionString: config.databaseUri! });
 
-async function connectWithStopAndWait(): Promise<void> {
-  
-  const start = Date.now();
+export const db = drizzle(pool);
 
-  while (Date.now() - start < config.dbMaxWaitMs) {
+export async function dbReady(): Promise<void> {
+  for (let i = 0; i < config.dbMaxRetries; i++) {
     try {
-      await pool.query('SELECT 1'); 
+      await pool.query('SELECT 1');
       console.log('DB connection ACK');
-      return; 
+      return;
     } catch (err) {
       console.error(`DB not ready. Retrying in ${config.dbConnectionInterval}ms...`);
       await new Promise((resolve) =>
@@ -21,35 +21,4 @@ async function connectWithStopAndWait(): Promise<void> {
   }
 }
 
-export const dbReady = (async () => {
-  await connectWithStopAndWait();
 
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS ip_rules (
-      id SERIAL PRIMARY KEY,
-      value TEXT NOT NULL,
-      mode VARCHAR(10) NOT NULL CHECK (mode IN ('blacklist', 'whitelist')),
-      active BOOLEAN DEFAULT TRUE
-    );
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS url_rules (
-      id SERIAL PRIMARY KEY,
-      value TEXT NOT NULL,
-      mode VARCHAR(10) NOT NULL CHECK (mode IN ('blacklist', 'whitelist')),
-      active BOOLEAN DEFAULT TRUE
-    );
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS port_rules (
-      id SERIAL PRIMARY KEY,
-      value INTEGER NOT NULL CHECK (value >= 0 AND value <= 65535),
-      mode VARCHAR(10) NOT NULL CHECK (mode IN ('blacklist', 'whitelist')),
-      active BOOLEAN DEFAULT TRUE
-    );
-  `);
-
-  console.log('Tables ip_rules, url_rules, and port_rules created (or already existed).');
-})();
