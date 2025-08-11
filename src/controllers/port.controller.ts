@@ -1,4 +1,4 @@
-import { createAddHandler, createDeleteHandler } from '../utils/ruleHandlers';
+import { createAddHandler, createDeleteHandler } from './ruleHandlers';
 import { addPortRules, deletePortRules } from '../services/port.service';
 
 export const handleAddPortRules = createAddHandler('port', addPortRules);

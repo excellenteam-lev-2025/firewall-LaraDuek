@@ -1,6 +1,5 @@
 import {pool} from '../db';
-
-type RuleMode = 'blacklist' | 'whitelist';
+import { RuleMode, isRuleMode } from '../utils/constants';
 
 export async function addRulesToTable<T extends string | number>(
   tableName: string,

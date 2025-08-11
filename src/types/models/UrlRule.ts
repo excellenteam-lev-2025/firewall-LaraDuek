@@ -1,4 +1,4 @@
-export type RuleMode = 'blacklist' | 'whitelist';
+import { RuleMode } from "../../utils/constants";
 
 export interface UrlRule {
   id: number;

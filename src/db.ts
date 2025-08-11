@@ -4,7 +4,10 @@ import { config } from './config/env';
 export const pool = new Pool({ connectionString: config.databaseUri! });
 
 async function connectWithStopAndWait(): Promise<void> {
-  for (;;) {
+  
+  const start = Date.now();
+
+  while (Date.now() - start < config.dbMaxWaitMs) {
     try {
       await pool.query('SELECT 1'); 
       console.log('DB connection ACK');

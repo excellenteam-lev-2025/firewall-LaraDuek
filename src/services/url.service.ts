@@ -1,5 +1,5 @@
-import { RuleMode } from '../types/models/UrlRule';
-import { addRulesToTable, deleteRulesFromTable } from '../utils/ruleOperations';
+import { RuleMode } from "../utils/constants";
+import { addRulesToTable, deleteRulesFromTable } from './ruleOperations';
 import { isValidUrl } from '../validators/url.validator';
 import { BadRequestError } from '../utils/errors';
 

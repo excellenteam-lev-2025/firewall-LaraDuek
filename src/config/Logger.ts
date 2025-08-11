@@ -9,31 +9,23 @@ const logFormat = format.combine(
 );
 
 function buildTransports() {
-    //prod
-    if (config.env !== 'production') {
-        return [
-        new transports.Console({
-            format: format.combine(format.colorize(), logFormat),
-            handleExceptions: true
-        })
-        ];
-    }
     //dev
-    try {
-        const logsDir = path.resolve(process.cwd(), 'logs');
-        if (!fs.existsSync(logsDir)) {
-        fs.mkdirSync(logsDir, { recursive: true });
-        }
-        return [new transports.File({ filename: path.join(logsDir, 'app.log') })];
-
-    } catch (err) {
-        console.warn('[logger] couldnt prepare log file. Fallback to console.', err);
+    if (config.env !== 'prod') {
         return [new transports.Console({ format: format.combine(format.colorize(), logFormat) })];
     }
+    //prod
+    const logsDir = path.resolve(process.cwd(), 'logs');
+
+    if (!fs.existsSync(logsDir)) {
+        fs.mkdirSync(logsDir);
+    }
+    return [new transports.File({ filename: path.join(logsDir, 'app.log') })];
 }
 
+
+
 export const logger = createLogger({
-  level: config.env === 'production' ? 'info' : 'debug',
+  level: config.env === 'prod' ? 'info' : 'debug',
   format: logFormat,
   transports: buildTransports(),
   exitOnError: false

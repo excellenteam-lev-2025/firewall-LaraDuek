@@ -1,4 +1,4 @@
-import { createAddHandler, createDeleteHandler } from '../utils/ruleHandlers';
+import { createAddHandler, createDeleteHandler } from './ruleHandlers';
 import { addIpRules, deleteIpRules } from '../services/ip.service';
 
 export const handleAddIpRules = createAddHandler('ip', addIpRules);

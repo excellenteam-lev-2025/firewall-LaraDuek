@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { BadRequestError } from './errors'; 
+import { BadRequestError } from '../utils/errors'; 
+import {RuleMode,isRuleMode} from '../utils/constants'; 
 
-type RuleMode = 'blacklist' | 'whitelist';
 
 type RuleOperationFn<T> = (values: T[], mode: RuleMode) => Promise<any[]>;
 export function createAddHandler<T>(

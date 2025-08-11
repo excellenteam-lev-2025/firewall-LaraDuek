@@ -1,4 +1,4 @@
-const net = require('net');
+import net from 'net';
 export function isValidIp(ip: string): boolean {
-  return net.isIP(ip);
+  return net.isIP(ip) > 0;
 }

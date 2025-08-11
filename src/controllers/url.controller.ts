@@ -1,4 +1,4 @@
-import { createAddHandler, createDeleteHandler } from '../utils/ruleHandlers';
+import { createAddHandler, createDeleteHandler } from './ruleHandlers';
 import { addUrlRules, deleteUrlRules } from '../services/url.service';
 
 export const handleAddUrlRules = createAddHandler('url', addUrlRules);
