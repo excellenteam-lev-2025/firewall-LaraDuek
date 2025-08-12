@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { BadRequestError } from '../utils/errors'; 
 import {RuleMode,isRuleMode} from '../utils/constants'; 
 
 
@@ -26,9 +25,6 @@ export function createAddHandler<T>(
       });
     } catch (err) {
       console.error(`Error in ${type} add handler:`, err);
-      if (err instanceof BadRequestError) {
-        return res.status(err.statusCode).json({ error: err.message });
-      }
       res.status(500).json({ error: 'Internal server error' });
     }
   };
@@ -56,9 +52,6 @@ export function createDeleteHandler<T>(
       });
     } catch (err) {
       console.error(`Error in ${type} delete handler:`, err);
-      if (err instanceof BadRequestError) {
-        return res.status(err.statusCode).json({ error: err.message });
-      }
       res.status(500).json({ error: 'Internal server error' });
     }
   };

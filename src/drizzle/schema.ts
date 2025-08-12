@@ -4,21 +4,21 @@ export const ruleModeEnum = pgEnum('rule_mode', ['blacklist', 'whitelist']);
 
 export const ipRules = pgTable('ip_rules', {
   id: serial('id').primaryKey(),
-  ip: text('ip').notNull(), 
+  value: text('value').notNull(), 
   mode: ruleModeEnum('mode').notNull(),
   active: boolean('active').notNull().default(true),
 });
 
 export const urlRules = pgTable('url_rules', {
   id: serial('id').primaryKey(),
-  url: text('url').notNull(),
+  value: text('value').notNull(),
   mode: ruleModeEnum('mode').notNull(),
   active: boolean('active').notNull().default(true),
 });
 
 export const portRules = pgTable('port_rules', {
   id: serial('id').primaryKey(),
-  port: integer('port').notNull(),
+  value: integer('value').notNull(),
   mode: ruleModeEnum('mode').notNull(),
   active: boolean('active').notNull().default(true),
 });
