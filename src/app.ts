@@ -8,7 +8,7 @@ import portRoutes from './routes/port.routes';
 import ruleRoutes from './routes/rule.routes';
 
 
-const app: Application = express();
+export const app: Application = express();
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
@@ -20,4 +20,3 @@ app.use('/api/firewall', urlRoutes);
 app.use('/api/firewall', portRoutes);
 app.use('/api/firewall', ruleRoutes);
 
-app.listen(config.port, () => console.log('Server is running on port', config.port));
