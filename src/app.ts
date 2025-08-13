@@ -1,6 +1,5 @@
 import express, {Application, Request, Response, NextFunction} from 'express';
 import { config } from './config/env';
-import './config/Logger'; 
 
 import ipRoutes from './routes/ip.routes';
 import urlRoutes from './routes/url.routes';

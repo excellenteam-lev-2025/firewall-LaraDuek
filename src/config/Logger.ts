@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from 'winston';
+import { createLogger, format, transports, Logger } from 'winston';
 import { config } from './env';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -22,18 +22,30 @@ function buildTransports() {
     return [new transports.File({ filename: path.join(logsDir, 'app.log') })];
 }
 
+class AppLogger {
+  private static instance: Logger;
+  private constructor() {}
 
+  public static getInstance(): Logger {
+    if (!AppLogger.instance) {
+      AppLogger.instance = createLogger({
+        level: config.env === 'prod' ? 'info' : 'debug',
+        format: logFormat,
+        transports: buildTransports(),
+        exitOnError: false
+      });
+      if (!(logger as any).__consolePatched) {
+        console.log = (...args) => logger.info(args.join(' '));
+        console.error = (...args) => logger.error(args.join(' '));
+        console.warn = (...args) => logger.warn(args.join(' '));
+        console.debug = (...args) => logger.debug(args.join(' '));
+        (logger as any).__consolePatched = true;
+      }
+      AppLogger.instance = logger;
+    }
+    return AppLogger.instance;
+  }
+}
 
-export const logger = createLogger({
-  level: config.env === 'prod' ? 'info' : 'debug',
-  format: logFormat,
-  transports: buildTransports(),
-  exitOnError: false
-});
-
+export const logger = AppLogger.getInstance();
 export default logger;
-
-console.log = (...args) => logger.info(args.join(' '));
-console.error = (...args) => logger.error(args.join(' '));
-console.warn = (...args) => logger.warn(args.join(' '));
-console.debug = (...args) => logger.debug(args.join(' '));
