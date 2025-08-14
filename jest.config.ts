@@ -12,13 +12,13 @@ const config: Config = {
     'src/routes/**/*.ts',
     'src/controllers/**/*.ts',
     'src/validators/**/*.ts',
+    'src/services/**',
     '!src/server.ts',
     '!src/scripts/**',
     '!src/drizzle/**',
     '!src/db.ts',
     '!src/middleware/**',
-    '!src/utils/**',
-    'src/services/**' 
+    '!src/utils/**'
   ],
   coverageThreshold: {
     global: { statements: 100, branches: 100, functions: 100, lines: 100 }
