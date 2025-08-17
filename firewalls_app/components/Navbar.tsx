@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
+import { Home } from 'lucide-react'
 
 type Tab = { href: string; label: string };
 
@@ -27,9 +28,24 @@ export default function Navbar() {
         gap: 16,
       }}
     >
-      <Link href="/" style={{ fontWeight: 700 }}>
-        firewalls_app
+      <Link
+        href="/"
+        aria-label="Go to Home"
+        title="Home"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+        justifyContent: 'center',
+        padding: 4,
+        borderRadius: 6,
+        color: '#0f172a',
+        textDecoration: 'none',
+        }}
+      >
+        <Home size={20} strokeWidth={2} />
       </Link>
+
+      
 
       <nav style={{ display: 'flex', gap: 12 }}>
         {TABS.map((tab) => {
@@ -38,12 +54,14 @@ export default function Navbar() {
             <Link
               key={tab.href}
               href={tab.href}
+              aria-current={active ? 'page' : undefined}
               style={{
                 padding: '8px 10px',
                 borderRadius: 8,
                 textDecoration: 'none',
                 background: active ? '#f3f4f6' : 'transparent',
                 fontWeight: active ? 600 : 500,
+                color: '#0f172a',
               }}
             >
               {tab.label}
@@ -51,6 +69,34 @@ export default function Navbar() {
           );
         })}
       </nav>
+      <div style={{ marginLeft: 'auto', display: 'flex', gap: 12 }}>
+        <Link
+          href="/settings"
+          style={{
+            padding: '8px 10px',
+            borderRadius: 8,
+            textDecoration: 'none',
+            background: pathname.startsWith('/settings') ? '#f3f4f6' : 'transparent',
+            fontWeight: pathname.startsWith('/settings') ? 600 : 500,
+            color: '#0f172a',
+          }}
+        >
+          Settings
+        </Link>
+        <Link
+          href="/profile"
+          style={{
+            padding: '8px 10px',
+            borderRadius: 8,
+            textDecoration: 'none',
+            background: pathname.startsWith('/profile') ? '#f3f4f6' : 'transparent',
+            fontWeight: pathname.startsWith('/profile') ? 600 : 500,
+            color: '#0f172a',
+          }}
+        >
+          Profile
+        </Link>
+      </div>
     </header>
   );
 }
