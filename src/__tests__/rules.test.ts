@@ -1,10 +1,7 @@
 import { api, prefix } from './helpers/request';
 
 jest.mock('../services/rule.service', () => ({
-  getAllRules: jest.fn().mockResolvedValue({
-    mode: 'whitelist',
-    totals: { ip: 0, port: 0, url: 0 },
-  }),
+  getAllRules: jest.fn().mockResolvedValue([]),
   toggleMultipleRules: jest.fn().mockResolvedValue([
     { id: 1, value: '1.1.1.1', active: true },
   ]),

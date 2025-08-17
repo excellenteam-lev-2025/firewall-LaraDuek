@@ -52,6 +52,17 @@ describe('Port endpoint', () => {
       expect(res.status).toBeGreaterThanOrEqual(400);
       expect(String(res.body?.error ?? res.text)).toMatch(/port|range|error/i);
     });
+
+    it('DELETE /port → 4xx (delete non-existing port)', async () => {
+      const notFoundErr = Object.assign(new Error('Port not found'), { code: 'NOT_FOUND' });
+      (deletePortRules as jest.Mock).mockRejectedValueOnce(notFoundErr);
+      const res = await api().delete(`${prefix}/port`).send({
+        values: [99999], //not existing port
+        mode: 'whitelist',
+      });
+      expect(res.status).toBeGreaterThanOrEqual(400);
+      expect(deletePortRules).toHaveBeenCalledWith([99999], 'whitelist');
+    });
   });
 
   describe('duplicates', () => {

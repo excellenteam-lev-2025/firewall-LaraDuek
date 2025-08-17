@@ -49,6 +49,8 @@ describe('IP endpoint', () => {
       expect(res.status).toBeGreaterThanOrEqual(400);
       expect(String(res.body?.error ?? res.text)).toMatch(/invalid|internal|error/i);
     });
+    
+
 
     it('POST /ip → 400 if missing mode', async () => {
       const res = await api().post(`${prefix}/ip`).send({ values: ['1.1.1.1'] });
@@ -69,6 +71,18 @@ describe('IP endpoint', () => {
       expect(String(res.body?.error ?? res.text)).toMatch(/internal/i);
     });
 
+    it('DELETE /ip → 4xx (delete non-existing IP)', async () => {
+      const notFoundErr = Object.assign(new Error('IP not found'), { code: 'NOT_FOUND' });
+      (deleteIpRules as jest.Mock).mockRejectedValueOnce(notFoundErr);
+      
+      const res = await api().delete(`${prefix}/ip`).send({
+        values: ['123.123.123.123'],
+        mode: 'whitelist',
+      });
+
+      expect(res.status).toBeGreaterThanOrEqual(400);
+      expect(deleteIpRules).toHaveBeenCalledWith(['123.123.123.123'], 'whitelist');
+    });
   });
 
   describe('duplicates', () => {

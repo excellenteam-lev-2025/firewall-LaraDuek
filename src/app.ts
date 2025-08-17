@@ -11,7 +11,7 @@ export const app: Application = express();
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
-    res.send('Hello, TypeScript with Express!');
+  res.json({ status: 'ok', message: 'Firewall API running' });
 });
 
 app.use('/api/firewall', ipRoutes);

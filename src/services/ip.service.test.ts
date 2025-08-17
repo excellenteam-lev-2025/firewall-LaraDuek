@@ -23,11 +23,12 @@ describe('ip.service', () => {
   });
 
   it('addIpRules → throws error if any IP is invalid', () => {
-    (isValidIp as jest.Mock).mockImplementation((v: string) => v !== '999.999.999.999');
-
-    expect(() => addIpRules(['999.999.999.999'], 'blacklist')).toThrow(/invalid/i);
+    (isValidIp as jest.Mock).mockReturnValue(false); 
+    expect(() => addIpRules(['999.999.999.999'], 'blacklist'))
+      .toThrow(/invalid/i);
     expect(addRulesToTable).not.toHaveBeenCalled();
   });
+
 
   it('deleteIpRules → delegates to deleteRulesFromTable', async () => {
     await deleteIpRules(['9.9.9.9'], 'whitelist');
