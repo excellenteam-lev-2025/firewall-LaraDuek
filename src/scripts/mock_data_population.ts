@@ -47,11 +47,11 @@ function generateURLs(n = 10): { value: string; mode: RuleMode }[] {
 // generate 10 valid ports
 function generatePorts(n = 10): { value: number; mode: RuleMode }[] {
   const common = [1, 22, 53, 80, 123, 143, 443, 8080, 27017, 65535];
-  const ports = Array.from({ length: n }, () => ({
-    value: pickOne(common),
+  const shuffled = faker.helpers.shuffle(common);   
+  return shuffled.slice(0, n).map(p => ({
+    value: p,
     mode: pickMode(),
   }));
-  return ports;
 }
 
 export async function seedMockData() {

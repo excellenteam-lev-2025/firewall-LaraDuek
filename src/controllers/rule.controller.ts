@@ -21,7 +21,10 @@ export async function toggleRules(req: Request, res: Response) {
 
     res.status(200).json({ updated });
   } catch (err) {
-    console.error('Error toggling rules:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('Error toggling rules:', message);
+    res.status(400).json({ error: message });
   }
 }
+
+

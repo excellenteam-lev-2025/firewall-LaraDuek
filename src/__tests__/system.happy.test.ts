@@ -7,7 +7,7 @@ describe('System happy flow (end-to-end)', () => {
     const ipAdd = await api().post(`${prefix}/ip`).send(ipBody);
     expect(ipAdd.status).toBeLessThan(400);
 
-    // 2) Add Port (blacklist)
+    // 2) Add Port (blacklist) 
     const portBody = { values: [22], mode: 'blacklist' as const };
     const portAdd = await api().post(`${prefix}/port`).send(portBody);
     expect(portAdd.status).toBeLessThan(400);

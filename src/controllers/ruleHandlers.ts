@@ -24,8 +24,9 @@ export function createAddHandler<T>(
         status: 'success',
       });
     } catch (err) {
-      console.error(`Error in ${type} add handler:`, err);
-      res.status(500).json({ error: 'Internal server error' });
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`Error in ${type} add handler:`, message);
+      res.status(500).json({ error: message });
     }
   };
 }
@@ -51,8 +52,9 @@ export function createDeleteHandler<T>(
         status: 'success',
       });
     } catch (err) {
-      console.error(`Error in ${type} delete handler:`, err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`Error in ${type} delete handler:`, message);
+      res.status(500).json({ error: message });
+      }
   };
 }
