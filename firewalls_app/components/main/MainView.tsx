@@ -1,7 +1,6 @@
 'use client';
 import * as React from 'react';
 import TabsBar from './TabsBar';
-import RulesAddition from '../rules/RulesAddition';
 import FirewallRulesView from './FirewallRulesView';
 
 export default function MainView() {

@@ -8,7 +8,6 @@ import { Home } from 'lucide-react'
 type Tab = { href: string; label: string };
 
 const TABS: Tab[] = [
-  { href: '/overview',       label: 'Overview' },
   { href: '/kernel_modules', label: 'Kernel Modules' },
   { href: '/firewall_rules', label: 'Firewall Rules' },
   { href: '/api_interface',  label: 'API Interface' },

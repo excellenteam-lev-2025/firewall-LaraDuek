@@ -1,9 +1,11 @@
-
+import LogsAndTesting from "@/components/main/Logs&Testing";
 export default async function LogsAndTestingPage() {
   return ( 
-    <section>
-      <h1>Logs & Testing</h1>
-      <p>This is the logs and testing section.</p>
-    </section>
+    <main className="max-w-4xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4 text-slate-900">
+        Logs & Testing
+      </h1>
+      <LogsAndTesting />
+    </main>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useState } from 'react';
+import { clientConfig } from '../../config/clientEnv';
 
 export default function RulesAddition() {
   const [type, setType] = useState<'ip' | 'url' | 'port'>('ip');
@@ -35,7 +36,7 @@ export default function RulesAddition() {
       };
 
       const res = await fetch(
-        `http://localhost:5000/api/firewall/${type}`,
+        `${clientConfig.apiBase}/${type}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -56,7 +57,7 @@ export default function RulesAddition() {
         throw new Error(message);
       }
 
-      setSuccess(`Rules (${values.length}) added successfully`);
+      setSuccess(`Rules (${values.filter((v) => v.trim() !== '').length}) added successfully`);
       setValues(['']); 
     } catch (err: any) {
       setError(err.message);
@@ -66,6 +67,8 @@ export default function RulesAddition() {
   }
 
   return (
+    <div>
+      <h2 className="text-lg font-semibold">Add Rules</h2>
     <form onSubmit={handleSubmit} className="grid gap-4">
       <label className="flex flex-col gap-1">
         Type:
@@ -133,5 +136,6 @@ export default function RulesAddition() {
       {error && <p className="text-red-500">{error}</p>}
       {success && <p className="text-green-600">{success}</p>}
     </form>
+    </div>
   );
 }
