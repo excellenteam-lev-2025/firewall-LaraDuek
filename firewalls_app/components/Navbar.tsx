@@ -1,97 +1,68 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import * as React from 'react';
-import { Home } from 'lucide-react'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Home } from "lucide-react";
+import {  NavigationMenu,  NavigationMenuItem,  NavigationMenuList,  navigationMenuTriggerStyle,} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils"; 
 
-type Tab = { href: string; label: string };
-
-const TABS: Tab[] = [
-  { href: '/kernel_modules', label: 'Kernel Modules' },
-  { href: '/firewall_rules', label: 'Firewall Rules' },
-  { href: '/api_interface',  label: 'API Interface' },
-  { href: '/logs_testing',   label: 'Logs & Testing' },
+const TABS = [
+  { href: "/kernel_modules", label: "Kernel Modules" },
+  { href: "/firewall_rules", label: "Firewall Rules" },
+  { href: "/api_interface", label: "API Interface" },
+  { href: "/logs_testing", label: "Logs & Testing" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header
-      style={{
-        borderBottom: '1px solid #e5e7eb',
-        padding: '12px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 16,
-      }}
-    >
+    <header className="border-b flex items-center gap-4 px-4 py-3">
       <Link
         href="/"
         aria-label="Go to Home"
-        title="Home"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-        justifyContent: 'center',
-        padding: 4,
-        borderRadius: 6,
-        color: '#0f172a',
-        textDecoration: 'none',
-        }}
+        className="inline-flex items-center justify-center p-2 rounded-md text-slate-900 hover:bg-slate-100"
       >
         <Home size={20} strokeWidth={2} />
       </Link>
 
-      
+      <NavigationMenu>
+        <NavigationMenuList>
+          {TABS.map((tab) => {
+            const active = pathname.startsWith(tab.href);
+            return (
+              <NavigationMenuItem key={tab.href}>
+                <Link
+                  href={tab.href}
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    active && "bg-slate-100 font-semibold"
+                  )}
+                >
+                  {tab.label}
+                </Link>
+              </NavigationMenuItem>
+            );
+          })}
+        </NavigationMenuList>
+      </NavigationMenu>
 
-      <nav style={{ display: 'flex', gap: 12 }}>
-        {TABS.map((tab) => {
-          const active = pathname.startsWith(tab.href);
-          return (
-            <Link
-              key={tab.href}
-              href={tab.href}
-              aria-current={active ? 'page' : undefined}
-              style={{
-                padding: '8px 10px',
-                borderRadius: 8,
-                textDecoration: 'none',
-                background: active ? '#f3f4f6' : 'transparent',
-                fontWeight: active ? 600 : 500,
-                color: '#0f172a',
-              }}
-            >
-              {tab.label}
-            </Link>
-          );
-        })}
-      </nav>
-      <div style={{ marginLeft: 'auto', display: 'flex', gap: 12 }}>
+      <div className="ml-auto flex gap-2">
         <Link
           href="/settings"
-          style={{
-            padding: '8px 10px',
-            borderRadius: 8,
-            textDecoration: 'none',
-            background: pathname.startsWith('/settings') ? '#f3f4f6' : 'transparent',
-            fontWeight: pathname.startsWith('/settings') ? 600 : 500,
-            color: '#0f172a',
-          }}
+          className={cn(
+            "px-3 py-2 rounded-md hover:bg-slate-100",
+            pathname.startsWith("/settings") && "bg-slate-100 font-semibold"
+          )}
         >
           Settings
         </Link>
         <Link
           href="/profile"
-          style={{
-            padding: '8px 10px',
-            borderRadius: 8,
-            textDecoration: 'none',
-            background: pathname.startsWith('/profile') ? '#f3f4f6' : 'transparent',
-            fontWeight: pathname.startsWith('/profile') ? 600 : 500,
-            color: '#0f172a',
-          }}
+          className={cn(
+            "px-3 py-2 rounded-md hover:bg-slate-100",
+            pathname.startsWith("/profile") && "bg-slate-100 font-semibold"
+          )}
         >
           Profile
         </Link>
