@@ -7,8 +7,8 @@ jest.mock('../services/ruleOperations', () => ({
 }));
 
 import { isValidIp } from '../validators/ip.validator';
-import { addRulesToTable, deleteRulesFromTable } from '../services/ruleOperations';
-import { addIpRules, deleteIpRules } from '../services/ip.service';
+import { addRulesToTable, deleteRulesFromTable } from './ruleOperations';
+import { addIpRules, deleteIpRules } from './ip.service';
 
 describe('ip.service', () => {
   beforeEach(() => jest.clearAllMocks());

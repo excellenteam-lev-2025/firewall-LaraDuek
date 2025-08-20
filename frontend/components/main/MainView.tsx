@@ -9,8 +9,8 @@ export default function MainView() {
   return (
     <section>
       <Tabs defaultValue="rules" className="w-full">
-        <TabsList>
-          <TabsTrigger value="rules">Firewall Rules</TabsTrigger>
+        <TabsList className=" glass rounded-xl shadow-lg">
+          <TabsTrigger className="glass" value="rules">Firewall Rules</TabsTrigger>
         </TabsList>
         <TabsContent value="rules">
           <FirewallRulesView />

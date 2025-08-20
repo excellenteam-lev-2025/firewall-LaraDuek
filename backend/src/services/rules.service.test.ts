@@ -5,7 +5,7 @@ jest.mock('../db', () => ({
 }));
 
 import { pool } from '../db';
-import { getAllRules, toggleMultipleRules } from '../services/rule.service';
+import { getAllRules, toggleMultipleRules } from './rule.service';
 
 describe('rules.service', () => {
   let mockClient: any;

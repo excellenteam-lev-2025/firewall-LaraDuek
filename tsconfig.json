@@ -2,8 +2,8 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
-    "outDir": "./dist",
+    "rootDir": "./backend",
+    "outDir": "./backend/dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -43,7 +43,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "drizzle.config.ts"],
+  "include": ["./backend/src", "./backend/drizzle.config.ts"],
   "exclude": ["drizzle.config.ts"]
 
 }

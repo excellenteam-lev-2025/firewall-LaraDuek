@@ -4,7 +4,7 @@ jest.mock('../db', () => ({
 }));
 
 import { pool } from '../db';
-import { addRulesToTable, deleteRulesFromTable } from '../services/ruleOperations';
+import { addRulesToTable, deleteRulesFromTable } from './ruleOperations';
 
 describe('ruleOperations catch blocks', () => {
   let mockClient: { query: jest.Mock; release: jest.Mock };

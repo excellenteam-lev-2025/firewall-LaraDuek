@@ -7,8 +7,8 @@ jest.mock('../services/ruleOperations', () => ({
 }));
 
 import { isValidUrl } from '../validators/url.validator';
-import { addRulesToTable, deleteRulesFromTable } from '../services/ruleOperations';
-import { addUrlRules, deleteUrlRules } from '../services/url.service';
+import { addRulesToTable, deleteRulesFromTable } from './ruleOperations';
+import { addUrlRules, deleteUrlRules } from './url.service';
 
 describe('url.service', () => {
   beforeEach(() => jest.clearAllMocks());

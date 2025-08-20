@@ -7,8 +7,8 @@ jest.mock('../services/ruleOperations', () => ({
 }));
 
 import { isValidPort } from '../validators/port.validator';
-import { addRulesToTable, deleteRulesFromTable } from '../services/ruleOperations';
-import { addPortRules, deletePortRules } from '../services/port.service';
+import { addRulesToTable, deleteRulesFromTable } from './ruleOperations';
+import { addPortRules, deletePortRules } from './port.service';
 
 describe('port.service', () => {
   beforeEach(() => jest.clearAllMocks());

@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn src/server.ts",
+    "dev": "ts-node-dev --respawn backend/src/server.ts",
     "build": "tsc",
     "start": "npm run build && node dist/server.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "test": "jest --coverage",
-    "mock:populate": "ts-node src/scripts/mock_data_population.ts"
+    "mock:populate": "ts-node backend/src/scripts/mock_data_population.ts"
   },
   "keywords": [],
   "author": "",

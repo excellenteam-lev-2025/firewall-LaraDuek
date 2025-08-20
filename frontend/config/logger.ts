@@ -9,20 +9,6 @@ const logFormat = format.combine(
   format.printf(({ timestamp, level, message }) => `${timestamp} [${level}]: ${message}`)
 );
 
-function buildTransports() {
-    //dev
-    if (config.env !== 'prod') {
-        return [new transports.Console({ format: format.combine(format.colorize(), logFormat) })];
-    }
-    //prod
-    const logsDir = path.resolve(process.cwd(), 'logs');
-
-    if (!fs.existsSync(logsDir)) {
-        fs.mkdirSync(logsDir);
-    }
-    return [new transports.File({ filename: path.join(logsDir, 'app.log') })];
-}
-
 class AppLogger {
   private static instance: Logger;
   private constructor() {}
@@ -32,7 +18,7 @@ class AppLogger {
       AppLogger.instance = createLogger({
         level: config.env === 'prod' ? 'info' : 'debug',
         format: logFormat,
-        transports: buildTransports(),
+        transports: [new transports.Console({ format: format.combine(format.colorize(), logFormat) })],
         exitOnError: false
       });
       if (!(logger as any).__consolePatched) {
