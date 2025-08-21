@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: firewalls-db-prod
+    restart: always
+    env_file:
+      - ./backend/.env.prod
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data_prod:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: firewalls-backend-prod
+    env_file:
+      - ./backend/.env.prod
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: firewalls-frontend-prod
+    env_file:
+      - ./frontend/.env.prod
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  db_data_prod:
